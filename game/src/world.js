@@ -372,7 +372,7 @@ export function createWorld(random) {
       const ndy = p.y - state.star.y;
       const nd = Math.max(1, Math.hypot(ndx, ndy));
       if (nd < STAR.singeRadius) {
-        state.integrity -= 30 * dt;
+        state.integrity -= 20 * dt;
         p.vx += (ndx / nd) * 240 * dt;
         p.vy += (ndy / nd) * 240 * dt;
       }

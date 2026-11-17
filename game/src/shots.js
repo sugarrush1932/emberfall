@@ -59,8 +59,8 @@ export function pilotControl(state) {
   const pdx = player.x - star.x;
   const pdy = player.y - star.y;
   const pDist = Math.max(1, Math.hypot(pdx, pdy));
-  if (pDist < 150) {
-    const blend = 1 - pDist / 150;
+  if (pDist < 175) {
+    const blend = 1 - pDist / 175;
     desX = desX * (1 - blend) + (pdx / pDist) * 260 * blend;
     desY = desY * (1 - blend) + (pdy / pDist) * 260 * blend;
   }
@@ -71,8 +71,8 @@ export function pilotControl(state) {
     const rx = player.x - rock.x;
     const ry = player.y - rock.y;
     const rDist = Math.max(1, Math.hypot(rx, ry));
-    if (rDist < 110) {
-      const push = (110 - rDist) * 2.4;
+    if (rDist < 150) {
+      const push = (150 - rDist) * 3.2;
       desX += (rx / rDist) * push;
       desY += (ry / rDist) * push;
     }
@@ -106,7 +106,7 @@ export function stageShot(name, world) {
   const state = world.state;
   if (name === 'play') {
     world.reset();
-    runPilot(world, 16, null);
+    runPilot(world, 11, (s) => s.combo >= 7);
     return { screen: endScreenFor(state), best: state.score };
   }
   if (name === 'fever') {

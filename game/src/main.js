@@ -133,7 +133,7 @@ if (shotName) {
     if (actions & ACTION_CONFIRM) {
       audio.unlock();
       if (screen === SCREEN_TITLE || screen === SCREEN_WON || screen === SCREEN_OVER) startRun();
-      else if (screen === SCREEN_PAUSED) screen = SCREEN_PLAY;
+      else if (screen === SCREEN_PAUSED) { screen = SCREEN_PLAY; announce('Resumed.'); }
     }
     if (actions & ACTION_PAUSE) {
       if (screen === SCREEN_PLAY) { screen = SCREEN_PAUSED; announce('Paused.'); }

@@ -47,7 +47,7 @@ export const DEBRIS = {
   maxRadius: 30,
   minSpeed: 60,
   maxSpeed: 145,
-  hitDamage: 18,
+  hitDamage: 14,
   nearMissRadius: 52,
   nearMissScore: 5,
 };
