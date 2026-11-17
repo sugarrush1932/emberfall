@@ -11,7 +11,10 @@ function clamp(v, lo, hi) {
 
 const ZERO = { ax: 0, ay: 0, dash: false, launch: null };
 
-export function pilotControl(state) {
+export function pilotControl(state, gentle = false) {
+  const starAvoid = gentle ? 150 : 175;
+  const debrisRange = gentle ? 110 : 150;
+  const debrisPush = gentle ? 2.4 : 3.2;
   const player = state.player;
   const star = state.star;
   // Nearest reachable shard is the target. Shards drift in nearly
@@ -59,8 +62,8 @@ export function pilotControl(state) {
   const pdx = player.x - star.x;
   const pdy = player.y - star.y;
   const pDist = Math.max(1, Math.hypot(pdx, pdy));
-  if (pDist < 175) {
-    const blend = 1 - pDist / 175;
+  if (pDist < starAvoid) {
+    const blend = 1 - pDist / starAvoid;
     desX = desX * (1 - blend) + (pdx / pDist) * 260 * blend;
     desY = desY * (1 - blend) + (pdy / pDist) * 260 * blend;
   }
@@ -71,8 +74,8 @@ export function pilotControl(state) {
     const rx = player.x - rock.x;
     const ry = player.y - rock.y;
     const rDist = Math.max(1, Math.hypot(rx, ry));
-    if (rDist < 150) {
-      const push = (150 - rDist) * 3.2;
+    if (rDist < debrisRange) {
+      const push = (debrisRange - rDist) * debrisPush;
       desX += (rx / rDist) * push;
       desY += (ry / rDist) * push;
     }
@@ -85,12 +88,12 @@ export function pilotControl(state) {
   };
 }
 
-function runPilot(world, maxSeconds, stopWhen) {
+function runPilot(world, maxSeconds, stopWhen, gentle = false) {
   const state = world.state;
   const maxSteps = Math.floor(maxSeconds / STEP);
   for (let i = 0; i < maxSteps; i++) {
     if (state.phase !== 'play') break;
-    world.step(STEP, pilotControl(state), false);
+    world.step(STEP, pilotControl(state, gentle), false);
     if (stopWhen && stopWhen(state)) break;
   }
   return state;
@@ -120,7 +123,7 @@ export function stageShot(name, world) {
   }
   if (name === 'end') {
     world.reset();
-    runPilot(world, 140, null);
+    runPilot(world, 140, null, true);
     return { screen: state.phase === 'won' ? SCREEN_WON : SCREEN_OVER, best: state.score };
   }
   // 'title' and anything unknown.
