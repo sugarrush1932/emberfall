@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>EMBERFALL</title>
+<style>
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: #05030d;
+    color: #f4ead8;
+    min-height: 100vh;
+  }
+  body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  canvas#game {
+    display: block;
+    width: min(100vw, 160vh);
+    height: auto;
+    aspect-ratio: 1280 / 800;
+    max-width: 100vw;
+    max-height: 100vh;
+    background: #05030d;
+    touch-action: none;
+  }
+  .visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+</style>
+</head>
+<body>
+<canvas id="game" width="1280" height="800" aria-label="Emberfall game field"></canvas>
+<p id="status" class="visually-hidden" aria-live="polite"></p>
+<script type="module" src="./src/main.js"></script>
+</body>
+</html>
